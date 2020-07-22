@@ -1,0 +1,17 @@
+{
+  "name": "branch-by-abs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.7"
+  }
+}
