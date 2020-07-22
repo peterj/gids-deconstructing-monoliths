@@ -1,10 +1,10 @@
 import { PurchaseResult } from './types';
 
-async function sendNotification(email: string): Promise<void> {
+async function sendNotification(email: string): Promise<string> {
   console.log(`\tSending notification to: ${email}`);
   // Send a notification to the customer via email.
   // code code code
-  return Promise.resolve();
+  return Promise.resolve('ok');
 }
 
 export async function purchaseProduct(
