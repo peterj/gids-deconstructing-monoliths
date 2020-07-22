@@ -1,17 +1,16 @@
 # Branch by abstraction demo
 
-Each step of the process is in a separate branch. The `master` branch is the starting point and the `final` branch contains the final project.
+This demo shows an example of the [branch by abstraction pattern](https://martinfowler.com/bliki/BranchByAbstraction.html). There are five steps to this pattern: 
 
-This examples demonstrate the following steps of the branch by abstraction pattern:
+1. Create the abstraction
+2. Use the abstraction with the existing implementation
+3. Implement the new service
+4. Switch the implementation to the new service
+5. Clean up the old implementation and abstraction
 
-1. Create the abstraction (branch: `create-abstraction`)
-2. Use the abstraction with the existing implementation (branch: `use-abstraction`)
-3. Implement new service (branch: `new-service`)
-4. Switch the implementation (branch: `implementation-switch`)
-5. Clean up (branch `clean-up`)
+The abstractions what we will be creating is called `Notifications`. Currently, in the `products` we have a single function called `sendNotification` that sends an email to the provided email (it doesn't really, but let's pretend it does :)). 
 
-
-The abstractions what we will be creating is called `Notifications`. Currently we have a single function called `sendNotification` that sends an email to the provided email. We want to extract the `sendNotification` implementation and move it into a separate service.
+We want to extract the `sendNotification` implementation and move it into a separate service called `notification`. 
 
 ## 1. Create the abstraction
 
@@ -96,8 +95,6 @@ class ServiceNotificationSystem implements Notifications {
     if (serviceUrl === undefined) {
       throw new Error(`NOTIFICATION_SERVICE_URL environment variable is not set`);
     }
-    console.log(`Calling service: ${serviceUrl}`);
-
     const response = await fetch(serviceUrl, {
       method: 'POST',
       headers: {
@@ -129,3 +126,63 @@ export function newNotificationSystem(): Notifications {
 }
 ```
 
+You can use the products implementation from the `final-products` folder to try it out. First, start the notification service by running `npm start` from the `notification` folder.
+
+Then, open the `final-products` folder and run it with `npm start`. The app will 'purchase' 5 products (there's a delay between them) and the final output will look like this:
+
+```
+App is running
+Purchasing product 0
+Using existing (old) implementation
+        Sending notification to: hello@example.com
+Purchasing product 1
+Using existing (old) implementation
+        Sending notification to: hello@example.com
+Purchasing product 2
+Using existing (old) implementation
+        Sending notification to: hello@example.com
+Purchasing product 3
+Using existing (old) implementation
+        Sending notification to: hello@example.com
+Purchasing product 4
+Using existing (old) implementation
+        Sending notification to: hello@example.com
+```
+
+Since we haven't set the environment variables, it will use the old implementation. Let's set the `NOTIFICATION_SERVICE_URL` and `USE_NOTIFICATION_SYSTEM_SERVICE` environment variables to switch to the new implementation:
+
+```
+export NOTIFICATION_SERVICE_URL="http://localhost:3000"
+export USE_NOTIFICATION_SYSTEM_SERVICE=1
+```
+
+If you run the products app this time, you will notice the output saying that the new implementation is used, and you will also see the output from the notification service:
+
+```
+# Notification service output
+notification service is listening on 3000
+Sending notification to hello@example.com
+Sending notification to hello@example.com
+Sending notification to hello@example.com
+Sending notification to hello@example.com
+Sending notification to hello@example.com
+
+...
+
+# final-products output
+App is running
+Purchasing product 0
+Using service (new) implementation
+Purchasing product 1
+Using service (new) implementation
+Purchasing product 2
+Using service (new) implementation
+Purchasing product 3
+Using service (new) implementation
+Purchasing product 4
+Using service (new) implementation
+```
+
+## 5. Clean up
+
+As a final step you can clean up the `notifications.ts` file and remove the old class (`NotificationSystem`). Don't forget to remove the use of feature flags in `newNotificationSystem` as well. 

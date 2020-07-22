@@ -1,5 +1,5 @@
 {
-  "name": "products",
+  "name": "final-products",
   "version": "1.0.0",
   "description": "",
   "main": "dist/app.js",
@@ -9,7 +9,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  },
   "devDependencies": {
     "typescript": "^3.9.7"
   }
