@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tax-service
+spec:
+  hosts:
+    - tax-service
+  http:
+    - route:
+        - destination:
+            host: tax-service
+            port:
+              number: 80
