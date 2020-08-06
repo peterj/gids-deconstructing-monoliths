@@ -45,7 +45,7 @@ kubectl apply -f tax-service/vs.yaml
 
 We will modify the tax monolith virtual service to enable mirroring requests to the tax-service. The consumers will see the responses from the `tax-monolith`, however, the requests will also be sent to the `tax-service` instance.
 
-In this demo we are simply logging the results as JSON strings to the standard output. A more realistic scenario might be writing to the database and then comparing the results from the `tax-monolith` and `tax-service` to ensure the new service works as expected.
+In this demo we are logging the results as JSON strings to the standard output. A more realistic scenario might be writing to the database and then comparing the results from the `tax-monolith` and `tax-service` to ensure the new service works as expected.
 
 Let's enable traffic mirroring by deploying the `mirror.yaml` file:
 

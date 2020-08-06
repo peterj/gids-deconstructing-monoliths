@@ -68,10 +68,6 @@ Since we moved the implementation to the class, we can also remove the `sendNoti
 
 If you run the application it will work exactly the same as before - it's still using the existing implementation, the only difference is that the functionality is behind an abstraction.
 
-
-
-
-
 ## 3. Implement the new service
 
 The new service is implemented in the `notification` folder. It runs on port 3000 and has a single endpoint, `/`, that accepts POST requests with `email` in the body:
