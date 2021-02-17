@@ -1,11 +1,5 @@
 import { PurchaseResult } from './types';
-
-async function sendNotification(email: string): Promise<string> {
-  console.log(`\tSending notification to: ${email}`);
-  // Send a notification to the customer via email.
-  // code code code
-  return Promise.resolve('ok');
-}
+import { newNotificationSystem } from './notifications';
 
 export async function purchaseProduct(
   productId: number,
@@ -14,7 +8,7 @@ export async function purchaseProduct(
   console.log(`Purchasing product ${productId}`);
   // Code code
   // more code
-  await sendNotification(customerEmail);
+  await newNotificationSystem().sendNotification(customerEmail);
   // some more code here
   return Promise.resolve({} as PurchaseResult);
 }
@@ -26,7 +20,7 @@ export async function someOtherWorkflow(customerEmail: string): Promise<void> {
   // more code
 
   // Notify the customer about something
-  await sendNotification(customerEmail);
+  await newNotificationSystem().sendNotification(customerEmail);
   // some more code here
   return Promise.resolve();
 }
